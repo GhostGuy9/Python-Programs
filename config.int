@@ -16,4 +16,4 @@ items = ["bread", "candy", "apple", "chips", "milk", "cookies", "pop-tart"]
 wholesale = ["1",".1",".5",".2",".5","2", ".50"]
 cost = ["2",".5","1","2","3","5", "2.50"]
 chances = [10, 20, 27, 84, 82, 73, 80]
-rent = 150
+rent = 250
