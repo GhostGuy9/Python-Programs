@@ -111,7 +111,6 @@ while play and command != 'endgame':
 
             mode = 'buy'
 
-            # TODO Keep it from error-ing after a character is entered instead of a int
             while mode == 'buy':
                 buy_item = input("Which item to buy?(\"item #\" \"amount\"): ")
 
@@ -166,7 +165,7 @@ while play and command != 'endgame':
         print("Rent Paid: " + '${:,.2f}'.format(rent) + " | Money After Rent: " + '${:,.2f}'.format(money))
         pay = False
 
-    while day < 7 and buy_item == "done" or "" and money > 0:
+    while day < 7 and buy_item == "done" and money > 0:
         temp_Inventory = 0
 
         if money < 0:
@@ -178,6 +177,7 @@ while play and command != 'endgame':
             temp_Inventory = temp_Inventory + inventory[cycle]
             cycle = cycle + 1
 
+        # TODO Fix Error Line 182
         if temp_Inventory == 0:
             print('Out Of Stock! Buy More Items!')
             inventory.pop(cycle)
@@ -268,32 +268,21 @@ while play and command != 'endgame':
             cycle = 0
             break
 
-        if command == 'again':
+        while command == 'again':
 
-            cycle = 0
             while cycle < len(inventory):
-                temp_Inventory = inventory[cycle]
+                temp_Inventory = temp_Inventory + inventory[cycle]
+                cycle = cycle + 1
 
-                if 0 < temp_Inventory <= 10 and inventory_id[cycle] != -1:
-                    print(f"Low on stock for {str(items[cycle]).capitalize()}, Maybe try buying more.")
-                    cycle = 0
-                    break
+            if 0 < temp_Inventory < 60:
+                print("Low on stock, Maybe try buying more.")
+                command = ''
+                cycle = 0
+                break
 
-                if 0 < temp_Inventory <= 10 and inventory_id == -1:
-                    cycle = cycle + 1
-
-                if debug:
-                    print("--------------------------")
-                    print('ID:', inventory_id[cycle])
-                    print('TEMP INV: ', temp_Inventory)
-                    print("LOOP #: ", cycle)
-                    print("--------------------------")
-
-                if cycle != len(inventory):
-                    cycle = cycle + 1
-
-                if cycle == len(inventory):
-                    break
+            if 0 < temp_Inventory > 60:
+                cycle = 0
+                break
 
         if command == 'again':
             os.system('cls')
@@ -313,7 +302,7 @@ while play and command != 'endgame':
             break
 
         if command != 'endgame' or command != 'again' or command != 'buy' or command != '':
-            print('ERROR: COMMAND', '"' + command + '"', 'was used')
+            print('ERROR: COMMAND', f'"{command}"', 'was used')
 
 
 if debug:
